@@ -1,0 +1,27 @@
+# Jack AI OS — .gitignore
+
+# 原始对话归档（必须保存本地；默认不 push）
+09_ARCHIVE/sessions/raw_archive/*
+!09_ARCHIVE/sessions/raw_archive/.gitkeep
+
+# 敏感信息
+.env
+.env.*
+*.key
+*.pem
+*_secret*
+*credentials*
+*.p12
+*.pfx
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# 开发环境
+node_modules/
+__pycache__/
+*.pyc
+.venv/
