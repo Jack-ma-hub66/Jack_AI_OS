@@ -118,6 +118,11 @@ echo "" >> "$OUT"
 echo "---" >> "$OUT"
 echo "**启动指令**：读取后回复确认摘要（见 00_START_HERE.md 格式），然后等待任务指令。" >> "$OUT"
 
+# 同步生成三端注入文件
+cp "$OUT" "$ROOT/05_PROJECTS/$PROJECT/CLAUDE.md"
+cp "$OUT" "$ROOT/05_PROJECTS/$PROJECT/AGENTS.md"
+echo "✅ 三端注入文件已同步：CONTEXT_PACK.md / CLAUDE.md / AGENTS.md"
+
 # 词数检查，上限 1500
 WORDS=$(wc -w < "$OUT")
 echo "✅ CONTEXT_PACK 已生成（约 ${WORDS} 词）：$OUT"

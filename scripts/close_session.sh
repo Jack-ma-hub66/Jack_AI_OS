@@ -142,8 +142,13 @@ echo "$DIGEST_INPUT" >> "$DAILY_FILE"
 
 echo "✅ Daily digest 已更新：$DAILY_FILE"
 
-# 4. 更新 CONTEXT_PACK
+# 4. 更新 CONTEXT_PACK 并同步三端注入文件
 bash "$ROOT/scripts/update_context.sh" "$PROJECT"
+for _inject_file in CONTEXT_PACK.md CLAUDE.md AGENTS.md; do
+  if [ ! -f "$ROOT/05_PROJECTS/$PROJECT/$_inject_file" ]; then
+    echo "⚠️  $_inject_file 未生成，请检查 update_context.sh"
+  fi
+done
 
 # 5. 安全 push
 bash "$ROOT/scripts/push_safe.sh" "close: $PROJECT session $DATE"
