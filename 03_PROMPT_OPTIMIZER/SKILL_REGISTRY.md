@@ -28,12 +28,48 @@
 
 ## Prompt Optimizer
 
-- 位置：`~/Jack_AI_OS/03_PROMPT_OPTIMIZER/prompt-optimizer/`
-- 状态：**待 Jack 迁入本地文件**（见 README.md）
-- Claude Project Instructions 作只读副本
-- 用途：任务编译器，将含糊需求转化为结构化任务理解
-- 触发规则：见 `02_TOOL_SYSTEM/TOOL_RULES.md`
-- 子 Skill 列表：**待 Jack 补充**
+- 位置：Claude Project Instructions（主）/ `~/Jack_AI_OS/03_PROMPT_OPTIMIZER/prompt-optimizer/`（本地副本待迁入）
+- 用途：任务编译器，将含糊需求转化为结构化任务理解，主动补漏、纠错、扩展scope
+- 调用方式：已注入Claude Chat的Project Instructions，自动触发，无需手动调用
+
+### 触发条件（满足一个即触发）
+- 指令含糊、目标不明确
+- 多个目标混在一起
+- 范围不完整，有明显遗漏
+- 有错误假设需要纠正
+- 任务复杂度高（3个以上复杂度信号）
+
+### 不触发条件
+- 闲聊、问候、简单事实问题
+- 指令已清晰完整
+- 进行中任务的跟进对话
+- 单步简单任务
+
+### 子Skill列表
+
+#### Skill 1：Lightweight Workflow（轻量优化）
+- 适用：复杂度低（0-2个信号）
+- 流程：诊断缺失项 → 修复 → 快速检查遗漏 → 直接执行
+- 特点：静默处理，用户只看到更好的结果
+
+#### Skill 2：Atomic Decomposition Workflow（原子分解）
+- 适用：复杂度高（3个以上信号）
+- 流程：
+  1. 打散——拆解为最小独立意图单元
+  2. 梳理关系——依赖、分组、冲突、缺失
+  3. 重建结构——按逻辑执行顺序重组
+  4. Challenge & Expand——检查N+1遗漏、纠错假设、评估风险
+  5. 执行——只输出结果，不展示分解过程
+
+#### Skill 3：Challenge and Expand（挑战与扩展）
+- 适用：所有任务，强制执行
+- 内容：用户列N项时检查是否应有N+1/N+2；方案次优时直接提更好方案；假设错误时直接纠正
+
+### 行为规范
+- 触发后直接用优化后的理解执行，不说「我优化了你的prompt」
+- 扩展了scope时简短说明新增了什么和原因
+- 意图太模糊时只问一个带选项的问题
+- 过度触发比不触发危害更大，存疑时不触发
 
 ---
 
