@@ -1,4 +1,4 @@
-# CONTEXT_PACK — Relay · 2026-05-06 02:24
+# CONTEXT_PACK — Relay · 2026-05-06 14:57
 > 自动生成。只包含 confirmed 信息。≤1500 词。
 > 直接复制粘贴给任意工具使用。
 
@@ -98,6 +98,22 @@ Jack AI OS v2 系统文件全量初始化（目录结构 + 核心文件 + 脚本
 - ❌ 禁止行为：[不能做什么]
 
 ## 最近会话摘要（最近 3 条）
+---
+# 会话摘要 · Relay · 20260506_1457
+
+## 本次完成
+- ~/.claude/CLAUDE.md 去OpenClaw化，改为Jack AI OS全局规则
+- OpenClaw项目文档迁入 05_PROJECTS/OpenClaw/
+- relay alias配置完成
+- Code自动加载CLAUDE.md验证通过
+
+## 下一步
+- 关闭检测规则加入 ~/.claude/CLAUDE.md
+- 确认Codex启动方式，设置AGENTS.md自动加载
+- 填写Relay项目概述
+- 清理home目录原有OpenClaw文件
+
+## 新增纠正记录
 ---
 # 会话摘要 · testproject · 20260505_0259
 
