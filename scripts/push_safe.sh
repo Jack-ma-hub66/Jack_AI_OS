@@ -9,8 +9,8 @@ MSG=${1:-"auto: session update $(date '+%Y-%m-%d %H:%M')"}
 echo "🔍 全量扫描敏感信息（staged + unstaged + untracked）..."
 
 SENSITIVE_PATTERNS=(
-  "api_key" "API_KEY"
-  "secret" "SECRET"
+  "api_key[=:]" "API_KEY="
+  "secret[=:]" "SECRET[=:]"
   "password" "PASSWORD"
   "private_key" "PRIVATE_KEY"
   "access_token" "ACCESS_TOKEN"
