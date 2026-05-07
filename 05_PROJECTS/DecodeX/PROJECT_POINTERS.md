@@ -7,9 +7,10 @@
 
 ## 主代码仓库
 
-- 本地路径：[/path/to/real/repo]
-- GitHub URL：[https://github.com/...]
-- 主分支：[main / master]
+- 本地路径：~/trading-framework/v2/teach_v2/
+- GitHub URL：https://github.com/Jack-ma-hub66/decodex-trade（私有）
+- 主分支：main
+- VPS 路径：/var/www/decodex/trade/（root@104.168.115.209）
 
 ## 相关仓库
 
