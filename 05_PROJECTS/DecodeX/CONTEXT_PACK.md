@@ -1,4 +1,4 @@
-# CONTEXT_PACK — DecodeX · 2026-05-07 18:59
+# CONTEXT_PACK — DecodeX · 2026-05-09 10:51
 > 自动生成。只包含 confirmed 信息。≤1500 词。
 > 直接复制粘贴给任意工具使用。
 
@@ -26,41 +26,55 @@
 
 ---
 
-最后更新：2026-05-07
+最后更新：2026-05-08
 更新者：Claude Code
-当前项目：DecodeX（主线）/ Relay（待议）
-当前阶段：项目清仓完成，DecodeX 阶段一受众定位待决策
+当前项目：Mingli（命理批算，进行中）/ DecodeX（主线待决策）
+当前阶段：Mingli 首次排盘中断，定盘问题未完成；DecodeX 受众定位待 Jack 决策
 
-## 上次完成（20260507）
+## 上次完成（20260508 · Mingli）
+
+- 定盘全部确认（辛未日主、木三局、夏令时已调整至21:18）
+- 八字辛金重新分析完成（段2）：身弱偏印格+金水伤官格，调候壬水具备
+- 更多锚点验证（段3）：2024纠纷解除劳动合同5/5、2025移居✓，框架置信度>4.5/5
+- 紫微修正（段4进行中）：发现并纠正错误五（命主≠命宫主星），软件正确命盘8宫已获取
+- 段4批析**未完成**，需下次继续（从4宫读取+大限流年批析开始）
+- SessionEnd hook 配置完成（exit 时触发提醒）
+- 00_START_HERE.md 关闭检测词同步（加入 exit / 再见）
+
+## 上次完成（20260507 · DecodeX）
 
 - ✅ DecodeX 阶段二全部收尾（p0 动画 + robots.txt + DNSSEC + CAA + GitHub）
 - ✅ trade.decodex.cc VPS 部署确认 HTTP 200
 
-## 上次完成（Chat 会话 20260506）
-
-- 全项目盘点，清理作废线（ISP 续费已完成、OpenClaw 相关全部关闭）
-- Edunation 询问中文沟通邮件草稿已准备，Jack 自行发送
-- DecodeX 三阶段建设框架已定义
-- DecodeX 项目目录已创建（Claude Code）
-
 ## 下一步（Next Action）
 
-**立即可做：**
-1. Jack 回答 DecodeX 受众定位（华人 / 全球 / 双语）→ 解锁框架主线（阶段一）
+**Mingli（优先）：**
+1. 继续定盘确认：夏令时最终确认（命主声明已为真太阳时，无需调整？）
+2. 辛未日主正确八字四柱完整排盘
+3. 紫微斗数正确排盘（两套：闰五月前/后）
+4. 三锚点回测（2012刑责缓刑、2017结婚、2020生子）
+5. 分段批算（每段≤8000 tokens）
+
+**DecodeX（待议）：**
+6. Jack 回答受众定位（华人 / 全球 / 双语）→ 解锁框架主线
 
 **等待中：**
-3. Edunation 5月15日会议（已预约，询问中文沟通邮件待回复）
-4. Relay 商业方向讨论（等 DecodeX 做完）
-5. Hermas 架构设计（未开始）
+7. Edunation 5月15日会议（已预约）
+8. Relay 商业方向讨论（等 DecodeX 做完）
+9. Hermas 架构设计（未开始）
 
 ## 阻塞项
 
-DecodeX 1.1 受众定位未决策 → 阻塞框架设计和主站建设
+- Mingli：夏令时最终确认（命主是否已换算为真太阳时）
+- DecodeX：受众定位未决策
 
 ## 未完成任务
 
+- [ ] Mingli 定盘确认（夏令时+闰月）
+- [ ] Mingli 正确排盘（八字+紫微双系统）
+- [ ] Mingli 三锚点回测
+- [ ] Mingli 全面批算（分段输出）
 - [ ] DecodeX 1.1 受众定位（等 Jack 回答）
-- [ ] DecodeX 阶段二遗留修复（p0/f4/f5/DNSSEC/CAA/robots.txt/GitHub备份）
 - [ ] MASTER_PROFILE.md 内容待 Jack 填写
 - [ ] GitHub 远程仓库待连接（push 失败，需检查）
 
@@ -110,7 +124,23 @@ DecodeX 1.1 受众定位未决策 → 阻塞框架设计和主站建设
 
 ## 最近会话摘要（最近 3 条）
 ---
-# 会话摘要 · DecodeX · 20260507_1859
+# 会话摘要 · DecodeX · 20260509_1051
+
+## 本次完成
+
+### decodex.cc + trade.decodex.cc 双站功能升级
+
+**主站 decodex.cc（v2/main/index.html）**
+- UTC+8 太阳时自动深浅色切换（NOAA 算法，台湾坐标 25.04°N / 121.56°E）
+- Apple 风格五栏居中导航（Trade / AI / Oracle / Journal / Relay）
+- 浅色 accent 色修正为 logo 绿 #18a87e（原误设蓝色）
+
+**教学站 trade.decodex.cc（v2/teach_v2/index.html）**
+- 同步太阳时主题切换
+- 品牌区改为可点击链接返回 decodex.cc
+- 所有播放按钮统一移至 SVG 下方居中（四条 JS 规则）
+---
+# 会话摘要 · DecodeX · 20260509_1047
 
 # 会话摘要 · DecodeX · 20260507
 
@@ -126,37 +156,21 @@ DecodeX 1.1 受众定位未决策 → 阻塞框架设计和主站建设
 ### 阶段三主站建设（decodex.cc）
 - decodex.cc 主站上线（Hero + Verticals + Values + Footer + 双语切换）
 ---
-# 交接记录 — Jack AI OS v2 建立全程
-> 对话时间：2026-05-06
-> 参与方：Jack + Claude Chat + Claude Code + Codex
-> 记录范围：从系统设计讨论开始到系统上线完成
+# 会话摘要 · Mingli · 20260508_2100
 
----
-
-## 一、本次对话核心成果
-
-### 系统已建立
-- Jack AI OS v2 完整文件系统已部署：`~/Jack_AI_OS/`
-- GitHub Private仓库已创建并同步：`Jack-ma-hub66/Jack_AI_OS`
-- 首个项目Relay已初始化，三端自动注入已配置
-- OpenClaw项目文档已从home目录迁入`05_PROJECTS/OpenClaw/`
-
----
-# 会话摘要 · Relay · 20260506_1457
+## 核心问题/需求
+继续命主（1990-07-05 21:18，男，通辽）八字+紫微双系统批算，同时处理定盘问题。
 
 ## 本次完成
-- ~/.claude/CLAUDE.md 去OpenClaw化，改为Jack AI OS全局规则
-- OpenClaw项目文档迁入 05_PROJECTS/OpenClaw/
-- relay alias配置完成
-- Code自动加载CLAUDE.md验证通过
 
-## 下一步
-- 关闭检测规则加入 ~/.claude/CLAUDE.md
-- 确认Codex启动方式，设置AGENTS.md自动加载
-- 填写Relay项目概述
-- 清理home目录原有OpenClaw文件
+### 段1：定盘确认
+- 夏令时确认：通辽122.3°E，钟表22:18→标准时21:18→真太阳时21:22，时辰亥时不变
+- 木三局确认（算闰五月下月=六月），命宫癸未
+- 日柱辛未三软件一致确认，时柱己亥
 
-## 新增纠正记录
+### 段2：八字辛金日主全新分析
+- 十神全表推翻重来（旧己土→新辛金）
+- 身弱偏印格+金水伤官格确立
 
 ## 当前任务队列
 暂无活跃任务

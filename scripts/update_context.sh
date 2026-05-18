@@ -36,9 +36,10 @@ else
 fi
 echo "" >> "$OUT"
 
-echo "## 项目背景" >> "$OUT"
+echo "## 项目背景（00_PROJECT_INDEX.md 完整内容）" >> "$OUT"
+# 2026-05-12 修订：head -20 会截断关键禁止清单与子项目映射；改为 cat 完整文件（受 1500 词上限保护）。
 if [ -f "$ROOT/05_PROJECTS/$PROJECT/00_PROJECT_INDEX.md" ]; then
-  head -20 "$ROOT/05_PROJECTS/$PROJECT/00_PROJECT_INDEX.md" >> "$OUT"
+  cat "$ROOT/05_PROJECTS/$PROJECT/00_PROJECT_INDEX.md" >> "$OUT"
 else
   echo "[待填写 00_PROJECT_INDEX.md]" >> "$OUT"
 fi
@@ -73,18 +74,20 @@ if [ "$FOUND_CORRECTIONS" -eq 0 ]; then
 fi
 echo "" >> "$OUT"
 
-echo "## 最近会话摘要（最近 3 条）" >> "$OUT"
+echo "## 最近会话摘要（仅列文件名，不内联内容）" >> "$OUT"
+# 2026-05-12 修订（COR-P010）：旧版本 head -15 注入会把已 Deprecated 的旧战略带入 CONTEXT_PACK；
+# 改为只列文件名，按需查阅原文件，避免污染 confirmed-only 上下文。
 DIGEST_DIR="$ROOT/09_ARCHIVE/sessions/digest"
 if [ -d "$DIGEST_DIR" ]; then
   COUNT=0
   while IFS= read -r -d '' f; do
-    if [ "$COUNT" -ge 3 ]; then break; fi
-    echo "---" >> "$OUT"
-    head -15 "$f" >> "$OUT"
+    if [ "$COUNT" -ge 5 ]; then break; fi
+    REL=$(basename "$f")
+    echo "- \`09_ARCHIVE/sessions/digest/$REL\`" >> "$OUT"
     COUNT=$((COUNT + 1))
   done < <(find "$DIGEST_DIR" -name "*.md" -print0 | sort -rz 2>/dev/null)
 fi
-if [ "$COUNT" -eq 0 ] 2>/dev/null; then
+if [ "${COUNT:-0}" -eq 0 ]; then
   echo "暂无会话摘要" >> "$OUT"
 fi
 echo "" >> "$OUT"
@@ -107,21 +110,32 @@ if [ "$FOUND_TASKS" -eq 0 ]; then
 fi
 echo "" >> "$OUT"
 
-echo "## 关键决策（最近 3 条）" >> "$OUT"
+echo "## 关键决策标题（全部已定决策；详情查阅 DECISIONS.md）" >> "$OUT"
+# 2026-05-12 修订：旧版 grep -A5 会把 v3.0 旧决策细节带入；改为只列标题，避免旧条目污染。
 if [ -f "$ROOT/05_PROJECTS/$PROJECT/DECISIONS.md" ]; then
-  grep -A5 "^### " "$ROOT/05_PROJECTS/$PROJECT/DECISIONS.md" | head -24 >> "$OUT"
+  grep "^### " "$ROOT/05_PROJECTS/$PROJECT/DECISIONS.md" >> "$OUT"
 else
   echo "暂无" >> "$OUT"
 fi
 echo "" >> "$OUT"
 
+# 项目级 DESIGN_DISPUTES（如存在）
+if [ -f "$ROOT/05_PROJECTS/$PROJECT/DESIGN_DISPUTES.md" ]; then
+  echo "## 当前设计分歧（列标题，详情查 DESIGN_DISPUTES.md）" >> "$OUT"
+  grep -E "^## DISP-" "$ROOT/05_PROJECTS/$PROJECT/DESIGN_DISPUTES.md" >> "$OUT"
+  echo "" >> "$OUT"
+fi
+
 echo "---" >> "$OUT"
 echo "**启动指令**：读取后回复确认摘要（见 00_START_HERE.md 格式），然后等待任务指令。" >> "$OUT"
 
-# 同步生成三端注入文件
+# 同步生成 Claude Code 注入文件（CLAUDE.md）
+# 注意：AGENTS.md 是项目级 Agent 设计文档，不再被本脚本自动覆写（2026-05-12 修订，COR-P006）
 cp "$OUT" "$ROOT/05_PROJECTS/$PROJECT/CLAUDE.md"
-cp "$OUT" "$ROOT/05_PROJECTS/$PROJECT/AGENTS.md"
-echo "✅ 三端注入文件已同步：CONTEXT_PACK.md / CLAUDE.md / AGENTS.md"
+echo "✅ 注入文件已同步：CONTEXT_PACK.md → CLAUDE.md（AGENTS.md 跳过，保留独立设计）"
+
+# 为兼容 Codex 三端注入需求，Codex 启动入口建议读取 CONTEXT_PACK.md 本身
+# 如确实需要 AGENTS.md 同步副本，请显式 `cp CONTEXT_PACK.md AGENTS.md.codex_snapshot`
 
 # 词数检查，上限 1500
 WORDS=$(wc -w < "$OUT")

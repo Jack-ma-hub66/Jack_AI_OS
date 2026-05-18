@@ -25,3 +25,19 @@ node_modules/
 __pycache__/
 *.pyc
 .venv/
+
+# 代理配置（含密码）
+02_TOOL_SYSTEM/proxy_configs/
+
+# 旧 handoff 归档（含历史密码）
+09_ARCHIVE/sessions/handoffs/
+
+# os 目录（本地工作区，含配置模板和敏感关键字，不追踪）
+os/
+
+# 旧会话 raw 归档
+09_ARCHIVE/sessions/raw_archive/
+
+# Skill 分发包（含占位 key）
+02_TOOL_SYSTEM/skills/
+05_PROJECTS/DecodeX_Corp/outputs/PROJECT_DESIGN_v3.0.md

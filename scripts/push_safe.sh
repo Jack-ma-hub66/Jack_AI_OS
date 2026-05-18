@@ -8,13 +8,14 @@ MSG=${1:-"auto: session update $(date '+%Y-%m-%d %H:%M')"}
 
 echo "🔍 全量扫描敏感信息（staged + unstaged + untracked）..."
 
+# 精确匹配：要求关键字后跟 = : 或引号，避免误报产品名/文档引用
 SENSITIVE_PATTERNS=(
-  "api_key[=:]" "API_KEY="
-  "secret[=:]" "SECRET[=:]"
-  "password" "PASSWORD"
-  "private_key" "PRIVATE_KEY"
-  "access_token" "ACCESS_TOKEN"
-  "credential" "CREDENTIAL"
+  "api_key[=: '\"]" "API_KEY[=]"
+  "secret[=: '\"]" "SECRET[=]"
+  "password[=: '\"]" "PASSWORD[=]"
+  "private_key[=: '\"]" "PRIVATE_KEY[=($]"
+  "access_token[=: '\"]" "ACCESS_TOKEN[=]"
+  "credential[=: '\"]" "CREDENTIAL[=]"
 )
 
 FOUND=0
@@ -36,8 +37,20 @@ $(cat "$ROOT/$f" 2>/dev/null)"
   fi
 done
 
+# 白名单：排除已知误报（产品名、文档引用等）
+WHITELIST_EXCLUSIONS=(
+  "1[Pp]assword"        # 1Password 产品名
+  "n8n.*[Cc]redential"  # n8n 文档中的 Credentials 功能
+  "[Cc]redentials[,，。\.、]"  # 文档列表中的 Credentials 项
+)
+
 for pattern in "${SENSITIVE_PATTERNS[@]}"; do
-  MATCHES=$(echo "$ALL_CONTENT" | grep -i "$pattern" | grep -v "^-" | grep -v "#" | head -2)
+  MATCHES=$(echo "$ALL_CONTENT" | grep -i "$pattern" | grep -v "^-" | grep -v "#")
+  # 过滤白名单
+  for excl in "${WHITELIST_EXCLUSIONS[@]}"; do
+    MATCHES=$(echo "$MATCHES" | grep -v "$excl")
+  done
+  MATCHES=$(echo "$MATCHES" | head -2)
   if [ -n "$MATCHES" ]; then
     echo "⚠️  发现敏感关键词 '$pattern'："
     echo "$MATCHES" | head -2

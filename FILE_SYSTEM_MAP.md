@@ -12,6 +12,7 @@
 - 原始对话（raw）→ `09_ARCHIVE/sessions/raw_archive/`（必须保存；按需读取；默认不注入；默认不 push）
 - 项目验证报告 → `05_PROJECTS/[项目名]/validation/`
 - 跨项目验证 → `06_VALIDATION_CENTER/VALIDATION_REPORTS/`
+- Codex 临时任务工作区 → `codex/`
 - 结束项目 → 整体迁入 `09_ARCHIVE/projects/`
 
 ---

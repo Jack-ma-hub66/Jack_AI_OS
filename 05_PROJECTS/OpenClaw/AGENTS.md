@@ -1,5 +1,9 @@
 # OpenClaw 交接文檔 — 角色設計優化線
-**日期**：2026-03-31（最後更新）
+
+> ⚠️ **路徑校正 2026-05-12**：原 `/Users/jack/open claw files/` 已於 2026-05-11 遷至 `~/Jack_AI_OS/09_ARCHIVE/projects/OpenClaw_legacy/open_claw_files/`。本文件所有舊路徑均已更新。
+> 本文件為 OpenClaw 早期角色設計線交接；DecodeX_Corp 沿用其 SOUL.md 框架見 `~/Jack_AI_OS/05_PROJECTS/DecodeX_Corp/AGENTS.md`。
+
+**日期**：2026-03-31（最後更新，內容快照）
 **接續節點**：資產總監角色決策完成（撤銷），下一個待處理角色為發佈專員
 **本線任務**：各角色 SOUL.md 的設計缺陷識別與完善
 
@@ -8,8 +12,8 @@
 ## ⚡ 新窗口第一件事
 
 1. 讀本文件（角色設計線交接）
-2. 讀 `/Users/jack/open claw files/交接文档/交接文檔_部署執行線.md`（如需部署上下文）
-3. 讀 `/Users/jack/open claw files/交接文档/頭腦風暴決策記錄_v1_20260319.md`（頭腦風暴決策記錄）
+2. 讀 `~/Jack_AI_OS/09_ARCHIVE/projects/OpenClaw_legacy/open_claw_files/交接文档/交接文檔_部署執行線.md`（如需部署上下文）
+3. 讀 `~/Jack_AI_OS/09_ARCHIVE/projects/OpenClaw_legacy/open_claw_files/交接文档/頭腦風暴決策記錄_v1_20260319.md`（頭腦風暴決策記錄）
 4. 不需要讀其他文件，以上三份覆蓋全部上下文
 
 ---

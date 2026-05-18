@@ -76,28 +76,18 @@ if [ -z "$DIGEST_INPUT" ]; then
   exit 1
 fi
 
-# 确定关闭模式：未提供 --raw 时交互询问
+# 确定关闭模式：未提供 --raw 时自动查找最新 jsonl
 if [ -z "$RAW_FILE" ]; then
-  echo "请选择关闭模式："
-  echo "  A) 完整关闭（保存 digest + raw transcript）"
-  echo "  B) 只保存任务状态（仅保存 digest）"
-  read -r -p "选择 [A/B]: " MODE_CHOICE
-  case "$MODE_CHOICE" in
-    A|a)
-      echo ""
-      echo "⚠️  完整关闭模式需要 raw transcript。"
-      echo "提供方式：bash close_session.sh [项目名] --digest [digest文件] --raw [原始对话文件]"
-      echo "如不需要 raw 归档，请选择 B 模式（只保存任务状态）。"
-      exit 1
-      ;;
-    B|b)
-      echo "→ B 模式：只保存任务状态"
-      ;;
-    *)
-      echo "❌ 无效选择，退出。"
-      exit 1
-      ;;
-  esac
+  LATEST_JSONL=$(find ~/.claude/projects -name "*.jsonl" -newer ~/.claude/projects -o -name "*.jsonl" 2>/dev/null | xargs ls -t 2>/dev/null | head -1)
+  if [ -z "$LATEST_JSONL" ]; then
+    LATEST_JSONL=$(find ~/.claude/projects -name "*.jsonl" 2>/dev/null | xargs ls -t 2>/dev/null | head -1)
+  fi
+  if [ -n "$LATEST_JSONL" ] && [ -f "$LATEST_JSONL" ]; then
+    RAW_FILE="$LATEST_JSONL"
+    echo "→ A 模式：自动检测到会话记录 $(basename "$RAW_FILE")"
+  else
+    echo "→ B 模式：未找到 jsonl，只保存任务状态"
+  fi
 fi
 
 # 1. 写入 digest
@@ -142,9 +132,20 @@ echo "$DIGEST_INPUT" >> "$DAILY_FILE"
 
 echo "✅ Daily digest 已更新：$DAILY_FILE"
 
-# 4. 更新 CONTEXT_PACK 并同步三端注入文件
+# 4a. 同步 Anima OS 倒排计划（保持 anima-os 项目与 os/ 目录同步）
+ANIMA_PLAN_SRC="$ROOT/os/Anima_OS_实施倒排计划.md"
+ANIMA_PLAN_DST="$HOME/anima-os/05_实施计划/Anima_OS_实施倒排计划.md"
+if [ -f "$ANIMA_PLAN_SRC" ] && [ -d "$(dirname "$ANIMA_PLAN_DST")" ]; then
+  cp "$ANIMA_PLAN_SRC" "$ANIMA_PLAN_DST"
+  echo "✅ Anima OS 倒排计划已同步到 anima-os 项目"
+  # 提交到 anima-os 仓库
+  (cd "$HOME/anima-os" && git add "05_实施计划/Anima_OS_实施倒排计划.md" && git diff --cached --quiet || git commit -m "sync: 倒排计划更新 $(date '+%Y-%m-%d %H:%M')" --author="Jack <noreply@anima.local>") 2>/dev/null && echo "✅ anima-os 已提交" || true
+fi
+
+# 4. 更新 CONTEXT_PACK 并同步注入文件
+# 注意：AGENTS.md 是项目级独立设计文档（2026-05-12 修订，COR-P006），不再自动生成
 bash "$ROOT/scripts/update_context.sh" "$PROJECT"
-for _inject_file in CONTEXT_PACK.md CLAUDE.md AGENTS.md; do
+for _inject_file in CONTEXT_PACK.md CLAUDE.md; do
   if [ ! -f "$ROOT/05_PROJECTS/$PROJECT/$_inject_file" ]; then
     echo "⚠️  $_inject_file 未生成，请检查 update_context.sh"
   fi
