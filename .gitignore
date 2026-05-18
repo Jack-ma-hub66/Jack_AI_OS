@@ -20,6 +20,26 @@ Thumbs.db
 *.tmp
 *.swp
 
+# 大型媒体文件（视频/音频/图片原件，避免 push 超时）
+*.mp4
+*.mp3
+*.mov
+*.avi
+*.m4v
+*.m4a
+*.wav
+*.aiff
+*.fcpbundle/
+*.fcpcache/
+*.flexolibrary
+
+# 大型二进制文档
+*.pdf
+*.doc
+*.docx
+*.xmind
+*.pptx
+
 # 开发环境
 node_modules/
 __pycache__/
@@ -41,3 +61,7 @@ os/
 # Skill 分发包（含占位 key）
 02_TOOL_SYSTEM/skills/
 05_PROJECTS/DecodeX_Corp/outputs/PROJECT_DESIGN_v3.0.md
+
+# 大型素材目录（视频/音频/PDF/图片原件，不入 git）
+05_PROJECTS/DecodeX_Journal/b_roll/
+05_PROJECTS/DecodeX_Oracle/source_materials/
